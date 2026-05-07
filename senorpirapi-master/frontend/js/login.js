@@ -10,7 +10,7 @@ async function manejarInicioSesion(event) {
 
   try {
 
-    const respuesta = await fetch("https://senorpirapi.onrender.com/api/login", {
+    const respuesta = await fetch("http://localhost:3000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

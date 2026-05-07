@@ -10,7 +10,7 @@ async function manejarInicioSesion(event) {
 
   try {
 
-    const respuesta = await fetch("https://senorpirapi.onrender.com/api/login", {
+    const respuesta = await fetch("http://localhost:3000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -23,17 +23,15 @@ async function manejarInicioSesion(event) {
 
     const data = await respuesta.json();
 
+    console.log("Respuesta:", data);
+
     if (!respuesta.ok) {
       alert(data.mensaje);
       return;
     }
 
-    // Guardar el id del usuario para usarlo en el dashboard
-    localStorage.setItem("usuarioId", data.usuario.id);
-
-    // Opcional: guardar nombre y correo
-    localStorage.setItem("nombre", data.usuario.nombre);
-    localStorage.setItem("correo", data.usuario.correo);
+    // GUARDAR SESIÓN COMPLETA
+    localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
     alert("Inicio de sesión correcto");
 

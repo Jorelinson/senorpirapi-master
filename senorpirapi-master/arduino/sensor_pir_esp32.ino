@@ -7,7 +7,7 @@ const char* password = "1508Kamil@";
 
 const int PIR_SENSOR_OUTPUT_PIN = 18;
 
-String servidor = "https://senorpirapi.onrender.com/movimiento";
+String servidor = "http://localhost:3000/movimiento";
 
 bool movimientoAnterior = false;
 
