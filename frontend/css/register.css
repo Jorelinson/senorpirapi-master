@@ -1,0 +1,69 @@
+/* Fondo de la página */
+body {
+  background-color: #f0f4f8;
+  font-family: Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caja principal */
+.contenedor {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 320px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #0058be;
+}
+
+/* Texto */
+p {
+  text-align: center;
+  color: #555;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #0058be;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hover del botón */
+button:hover {
+  background-color: #004299;
+}
+
+/* Texto volver */
+.volver {
+  margin-top: 20px;
+}

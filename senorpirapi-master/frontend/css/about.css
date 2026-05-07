@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+}
+
+header {
+  background-color: #0058be;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.3rem;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+  background-color: rgba(255,255,255,0.2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+header a:hover {
+  background-color: rgba(255,255,255,0.35);
+}
+
+main {
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tarjeta {
+  background-color: white;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #0058be;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+p {
+  color: #444;
+  line-height: 1.7;
+  font-size: 0.97rem;
+}
+
+ul {
+  padding-left: 20px;
+  color: #444;
+}
+
+li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  font-size: 0.97rem;
+}
+
+.tecnologias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.tecnologia-item {
+  background-color: #f0f4f8;
+  border-left: 4px solid #0058be;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  color: #333;
+}
+
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.estudiante-card {
+  background-color: #f0f4f8;
+  border-radius: 10px;
+  padding: 25px 20px;
+  text-align: center;
+  border-top: 4px solid #0058be;
+}
+
+.estudiante-card .icono {
+  width: 60px;
+  height: 60px;
+  background-color: #0058be;
+  border-radius: 50%;
+  margin: 0 auto 14px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.estudiante-card h3 {
+  color: #0058be;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.estudiante-card p {
+  font-size: 0.85rem;
+  color: #666;
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Título de la pestaña -->
+    <title>Iniciar Sesión</title>
+
+    <!-- Conecta el archivo CSS -->
+    <link rel="stylesheet" href="CSS/login.css" />
+  </head>
+  <body>
+    <!-- Caja principal -->
+    <div class="contenedor">
+      <!-- Título -->
+      <h1>Smart Motion Monitor</h1>
+
+      <!-- Texto pequeño -->
+      <p>Inicia sesión para entrar al sistema</p>
+
+      <!-- Formulario -->
+      <form onsubmit="manejarInicioSesion(event)">
+        <!-- Correo -->
+        <label for="correo">Correo:</label>
+        <input
+          type="email"
+          id="correo"
+          placeholder="correo@ejemplo.com"
+          required
+        />
+
+        <!-- Contraseña -->
+        <label for="contrasena">Contraseña:</label>
+        <input
+          type="password"
+          id="contrasena"
+          placeholder="********"
+          required
+        />
+
+        <!-- Botón -->
+        <button type="submit">Entrar</button>
+      </form>
+
+      <!-- Link para registrarse -->
+      <p class="registro">
+        ¿No tienes cuenta?
+        <a href="register.html">Regístrate</a>
+      </p>
+    </div>
+
+    <!-- Conecta el archivo JavaScript -->
+    <script src="js/login.js"></script>
+  </body>
+</html>

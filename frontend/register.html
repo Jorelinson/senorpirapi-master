@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+
+    <!-- Conecta el CSS -->
+    <link rel="stylesheet" href="CSS/register.css">
+  </head>
+  <body>
+
+    <!-- Caja principal -->
+    <div class="contenedor">
+
+      <!-- Título -->
+      <h1>Crear Cuenta</h1>
+
+      <p>Regístrate para ingresar al sistema</p>
+
+      <!-- Formulario -->
+      <form id="formRegistro">
+
+        <!-- Nombre -->
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
+
+        <!-- Correo -->
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" placeholder="correo@ejemplo.com"
+          required>
+
+        <!-- Contraseña -->
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" placeholder="********" required>
+
+        <!-- Botón -->
+        <button type="submit">Registrarme</button>
+      </form>
+
+      <!-- Volver -->
+      <p class="volver">
+        <a href="login.html">Volver al inicio de sesión</a>
+      </p>
+
+    </div>
+
+    <!-- Conecta el JavaScript -->
+    <script src="js/register.js"></script>
+  </body>
+</html>

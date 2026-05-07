@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal</title>
+
+    <!-- Archivo CSS -->
+    <link rel="stylesheet" href="CSS/dashboard.css">
+
+
+    <!-- Librería Chart.js para las gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+
+    <!-- Encabezado -->
+    <header class="encabezado">
+      <h1>Smart Motion </h1>
+
+      <nav class="menu">
+        <a href="dashboard.html">Inicio</a>
+        <a href="about.html">About</a>
+        <a class="cerrar" href="login.html">Cerrar sesión</a>
+      </nav>
+    </header>
+    <!-- Contenido principal -->
+    <main class="contenedor-principal">
+
+      <!-- Tarjetas superiores -->
+      <section class="tarjetas">
+
+        <div class="tarjeta">
+          <h2>Estado del sensor</h2>
+          <p id="estado">Sin movimiento</p>
+        </div>
+
+        <div class="tarjeta">
+          <h2>Última detección</h2>
+          <p id="hora">Aún no hay datos</p>
+        </div>
+
+        <div class="tarjeta">
+          <h2>Movimientos del dia</h2>
+          <p id="movimientosHoy">0</p>
+        </div>
+
+      </section>
+
+      <!-- Bloque de gráfica -->
+      <section class="grafica-contenedor">
+
+        <div class="grafica-header">
+          <h2>Monitor de Actividad</h2>
+
+          <div class="tabs">
+            <button id="tab-dia" class="tab-active"
+              onclick="cambiarVista('dia')">
+              Día
+            </button>
+
+            <button id="tab-mes" onclick="cambiarVista('mes')">
+              Mes
+            </button>
+
+            <button id="tab-anio" onclick="cambiarVista('anio')">
+              Año
+            </button>
+          </div>
+        </div>
+
+        <!-- Canvas donde se dibuja la gráfica -->
+        <div class="contenedor-canvas">
+          <canvas id="graficaMovimientos"></canvas>
+        </div>
+
+      </section>
+
+      <!-- Historial -->
+      <section class="historial">
+
+        <div class="historial-header">
+          <h2>Historial reciente</h2>
+
+          <button onclick="actualizarDatos()">
+            Actualizar
+          </button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Sensor</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+
+          <tbody id="tablaMovimientos">
+            <tr>
+              <td colspan="4">Cargando datos...</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+
+    </main>
+
+    <!-- Archivo JavaScript -->
+    <!-- Primero api.js -->
+    <script src="js/api.js"></script>
+
+    <!-- Después dashboard.js -->
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>
