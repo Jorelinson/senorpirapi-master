@@ -1,9 +1,3 @@
-
-
-
-//#define PIR_PIN 12      // OUT del PIR -> GPIO12
-//#define LED_PIN 33      // LED -> GPIO33
-
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
@@ -17,8 +11,8 @@ const char* password = "1508Kamil@";
 // =========================
 // PINES
 // =========================
-const int PIR_SENSOR_OUTPUT_PIN = 12;
-const int LED_PIN = 33;
+const int PIR_SENSOR_OUTPUT_PIN = 12;      // OUT del PIR -> GPIO12
+const int LED_PIN = 33;// LED -> GPIO33
 
 // =========================
 // SERVIDOR
