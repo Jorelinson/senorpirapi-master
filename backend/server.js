@@ -241,11 +241,13 @@ app.get("/movimientos/:usuarioId", async (req, res) => {
 // =========================
 // GRAFICA DIA
 // =========================
-app.get("/movimientos/dia", async (req, res) => {
+app.get("/movimientos/dia/:usuarioId", async (req, res) => {
   try {
+
+    const { usuarioId } = req.params;
+
     const horas = Array(24).fill(0);
 
-    // Fecha actual en Colombia
     const ahora = new Date();
 
     const hoyColombia = new Date(
@@ -254,25 +256,23 @@ app.get("/movimientos/dia", async (req, res) => {
       })
     );
 
-    // Inicio del día en Colombia
     const inicioDia = new Date(hoyColombia);
     inicioDia.setHours(0, 0, 0, 0);
 
-    // Fin del día en Colombia
     const finDia = new Date(hoyColombia);
     finDia.setHours(23, 59, 59, 999);
 
-    const movimientos = await Movimiento.find();
+    // SOLO movimientos del usuario
+    const movimientos = await Movimiento.find({ usuarioId });
 
     movimientos.forEach((mov) => {
-      // Convertir la fecha guardada a hora Colombia
+
       const fechaColombia = new Date(
         new Date(mov.fecha).toLocaleString("en-US", {
           timeZone: "America/Bogota"
         })
       );
 
-      // Solo tomar movimientos del día actual
       if (fechaColombia >= inicioDia && fechaColombia <= finDia) {
         const hora = fechaColombia.getHours();
         horas[hora]++;
@@ -282,7 +282,9 @@ app.get("/movimientos/dia", async (req, res) => {
     res.json(horas);
 
   } catch (error) {
+
     console.error("Error en /movimientos/dia:", error);
+
     res.status(500).json({
       mensaje: "Error obteniendo gráfica del día"
     });
@@ -293,9 +295,11 @@ app.get("/movimientos/dia", async (req, res) => {
 // =========================
 // GRAFICA MES
 // =========================
-app.get("/movimientos/mes", async (req, res) => {
+app.get("/movimientos/mes/:usuarioId", async (req, res) => {
   try {
-    // Obtener fecha actual en Colombia
+
+    const { usuarioId } = req.params;
+
     const hoy = new Date(
       new Date().toLocaleString("en-US", {
         timeZone: "America/Bogota"
@@ -305,26 +309,26 @@ app.get("/movimientos/mes", async (req, res) => {
     const anio = hoy.getFullYear();
     const mesActual = hoy.getMonth();
 
-    // Cantidad real de días del mes actual
     const totalDias = new Date(anio, mesActual + 1, 0).getDate();
 
     const dias = Array(totalDias).fill(0);
 
-    const movimientos = await Movimiento.find();
+    // SOLO movimientos del usuario
+    const movimientos = await Movimiento.find({ usuarioId });
 
     movimientos.forEach((mov) => {
+
       const fecha = new Date(
         new Date(mov.fecha).toLocaleString("en-US", {
           timeZone: "America/Bogota"
         })
       );
 
-      // Solo tomar movimientos del mes y año actual
       if (
         fecha.getFullYear() === anio &&
         fecha.getMonth() === mesActual
       ) {
-        const dia = fecha.getDate(); // 1 al 31
+        const dia = fecha.getDate();
         dias[dia - 1]++;
       }
     });
@@ -332,7 +336,9 @@ app.get("/movimientos/mes", async (req, res) => {
     res.json(dias);
 
   } catch (error) {
+
     console.error("Error en /movimientos/mes:", error);
+
     res.status(500).json({
       mensaje: "Error obteniendo gráfica del mes"
     });
@@ -343,11 +349,13 @@ app.get("/movimientos/mes", async (req, res) => {
 // =========================
 // GRAFICA AÑO
 // =========================
-app.get("/movimientos/anio", async (req, res) => {
+app.get("/movimientos/anio/:usuarioId", async (req, res) => {
   try {
+
+    const { usuarioId } = req.params;
+
     const meses = Array(12).fill(0);
 
-    // Fecha actual en Colombia
     const hoy = new Date(
       new Date().toLocaleString("en-US", {
         timeZone: "America/Bogota"
@@ -356,19 +364,19 @@ app.get("/movimientos/anio", async (req, res) => {
 
     const anioActual = hoy.getFullYear();
 
-    const movimientos = await Movimiento.find();
+    // SOLO movimientos del usuario
+    const movimientos = await Movimiento.find({ usuarioId });
 
     movimientos.forEach((mov) => {
-      // Convertir cada fecha a hora Colombia
+
       const fecha = new Date(
         new Date(mov.fecha).toLocaleString("en-US", {
           timeZone: "America/Bogota"
         })
       );
 
-      // Solo contar movimientos del año actual
       if (fecha.getFullYear() === anioActual) {
-        const mes = fecha.getMonth(); // 0 = Ene, 1 = Feb...
+        const mes = fecha.getMonth();
         meses[mes]++;
       }
     });
@@ -376,7 +384,9 @@ app.get("/movimientos/anio", async (req, res) => {
     res.json(meses);
 
   } catch (error) {
+
     console.error("Error en /movimientos/anio:", error);
+
     res.status(500).json({
       mensaje: "Error obteniendo gráfica del año"
     });

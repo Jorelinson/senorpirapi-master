@@ -1,4 +1,13 @@
 // =========================
+// VERIFICAR SESIÓN
+// =========================
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+if (!usuario) {
+  window.location.href = "login.html";
+}
+
+// =========================
 // dashboard.js COMPLETO CORREGIDO
 // =========================
 
@@ -9,28 +18,37 @@ let vistaActual = "dia";
 // CARGAR HISTORIAL
 // =========================
 async function cargarHistorial() {
+
   const tabla = document.getElementById("tablaMovimientos");
 
   try {
+
     const movimientos = await obtenerMovimientos(5000);
 
     if (!movimientos || movimientos.length === 0) {
+
       tabla.innerHTML = `
         <tr>
           <td colspan="4">No hay movimientos registrados</td>
         </tr>
       `;
 
-      document.getElementById("estado").textContent = "Sin movimiento";
-      document.getElementById("hora").textContent = "--:--:--";
-      document.getElementById("movimientosHoy").textContent = "0";
+      document.getElementById("estado").textContent =
+        "Sin movimiento";
+
+      document.getElementById("hora").textContent =
+        "--:--:--";
+
+      document.getElementById("movimientosHoy").textContent =
+        "0";
+
       return;
     }
 
     // Limpiar tabla
     tabla.innerHTML = "";
 
-    // Hora actual en Colombia
+    // Hora actual Colombia
     const ahoraColombia = new Date(
       new Date().toLocaleString("en-US", {
         timeZone: "America/Bogota"
@@ -40,13 +58,14 @@ async function cargarHistorial() {
     let contadorHoy = 0;
 
     movimientos.forEach((mov) => {
+
       const fechaColombia = new Date(
         new Date(mov.fecha).toLocaleString("en-US", {
           timeZone: "America/Bogota"
         })
       );
 
-      // Contar movimientos del día actual
+      // Contar movimientos del día
       if (
         fechaColombia.getDate() === ahoraColombia.getDate() &&
         fechaColombia.getMonth() === ahoraColombia.getMonth() &&
@@ -67,8 +86,12 @@ async function cargarHistorial() {
       tabla.innerHTML += `
         <tr>
           <td>${fechaTexto}</td>
-          <td>${mov.movimiento ? "Movimiento detectado" : "Sin movimiento"}</td>
-          <td>${mov.datos?.sensor || "PIR"}</td>
+          <td>
+            ${mov.movimiento
+              ? "Movimiento detectado"
+              : "Sin movimiento"}
+          </td>
+          <td>${mov.sensor || "PIR"}</td>
           <td>Registrado</td>
         </tr>
       `;
@@ -82,17 +105,17 @@ async function cargarHistorial() {
       })
     );
 
-    // Estado del sensor:
-    // si el último movimiento fue hace menos de 10 segundos => activo
+    // Diferencia de tiempo
     const diferenciaSegundos =
       (ahoraColombia - ultimaFechaColombia) / 1000;
 
+    // Estado sensor
     document.getElementById("estado").textContent =
       diferenciaSegundos <= 60
         ? "Activo"
         : "Desactivado";
 
-    // Última detección en formato militar
+    // Última detección
     document.getElementById("hora").textContent =
       ultimaFechaColombia.toLocaleTimeString("es-CO", {
         hour: "2-digit",
@@ -102,79 +125,126 @@ async function cargarHistorial() {
       });
 
     // Movimientos del día
-    document.getElementById("movimientosHoy").textContent = contadorHoy;
+    document.getElementById("movimientosHoy").textContent =
+      contadorHoy;
 
   } catch (error) {
+
     console.error("Error cargando historial:", error);
   }
 }
 
 // =========================
-// CARGAR GRAFICA
+// CARGAR GRÁFICA
 // =========================
 async function cargarGrafica() {
+
   let datos = [];
   let etiquetas = [];
 
   try {
+
+    // =========================
+    // VISTA DÍA
+    // =========================
     if (vistaActual === "dia") {
+
       datos = await obtenerGraficaDia();
 
       etiquetas = [
-        "00:00", "01:00", "02:00", "03:00", "04:00", "05:00",
-        "06:00", "07:00", "08:00", "09:00", "10:00", "11:00",
-        "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
-        "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"
+        "00:00", "01:00", "02:00", "03:00",
+        "04:00", "05:00", "06:00", "07:00",
+        "08:00", "09:00", "10:00", "11:00",
+        "12:00", "13:00", "14:00", "15:00",
+        "16:00", "17:00", "18:00", "19:00",
+        "20:00", "21:00", "22:00", "23:00"
       ];
     }
 
+    // =========================
+    // VISTA MES
+    // =========================
     if (vistaActual === "mes") {
+
       datos = await obtenerGraficaMes();
-      etiquetas = Array.from({ length: 30 }, (_, i) => `Día ${i + 1}`);
+
+      etiquetas = Array.from(
+        { length: datos.length },
+        (_, i) => `Día ${i + 1}`
+      );
     }
 
+    // =========================
+    // VISTA AÑO
+    // =========================
     if (vistaActual === "anio") {
+
       datos = await obtenerGraficaAnio();
 
       etiquetas = [
-        "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+        "Ene", "Feb", "Mar", "Abr",
+        "May", "Jun", "Jul", "Ago",
+        "Sep", "Oct", "Nov", "Dic"
       ];
     }
 
-    const canvas = document.getElementById("graficaMovimientos");
+    const canvas =
+      document.getElementById("graficaMovimientos");
+
     const ctx = canvas.getContext("2d");
 
+    // Destruir gráfica anterior
     if (grafica) {
       grafica.destroy();
     }
 
+    // Crear nueva gráfica
     grafica = new Chart(ctx, {
+
       type: "line",
+
       data: {
+
         labels: etiquetas,
+
         datasets: [{
           label: "Movimientos detectados",
+
           data: datos,
+
           borderColor: "#0b5cc7",
-          backgroundColor: "rgba(11,92,199,0.15)",
+
+          backgroundColor:
+            "rgba(11,92,199,0.15)",
+
           fill: true,
+
           borderWidth: 4,
+
           pointRadius: 5,
+
           tension: 0.35
         }]
       },
+
       options: {
+
         responsive: true,
+
         maintainAspectRatio: false,
+
         plugins: {
           legend: {
             display: true
           }
         },
+
         scales: {
+
           y: {
+
             beginAtZero: true,
+
             ticks: {
               precision: 0
             }
@@ -184,7 +254,11 @@ async function cargarGrafica() {
     });
 
   } catch (error) {
-    console.error("Error cargando gráfica:", error);
+
+    console.error(
+      "Error cargando gráfica:",
+      error
+    );
   }
 }
 
@@ -192,13 +266,16 @@ async function cargarGrafica() {
 // CAMBIAR VISTA
 // =========================
 function cambiarVista(vista) {
+
   vistaActual = vista;
 
-  document.querySelectorAll(".tabs button").forEach((btn) => {
-    btn.classList.remove("tab-active");
-  });
+  document.querySelectorAll(".tabs button")
+    .forEach((btn) => {
+      btn.classList.remove("tab-active");
+    });
 
-  document.getElementById(`tab-${vista}`).classList.add("tab-active");
+  document.getElementById(`tab-${vista}`)
+    .classList.add("tab-active");
 
   cargarGrafica();
 }
@@ -207,7 +284,9 @@ function cambiarVista(vista) {
 // ACTUALIZAR DATOS
 // =========================
 function actualizarDatos() {
+
   cargarHistorial();
+
   cargarGrafica();
 }
 
@@ -215,10 +294,13 @@ function actualizarDatos() {
 // INICIO
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
+
   actualizarDatos();
 
-  // Actualizar automáticamente cada 5 segundos
+  // Actualizar cada 5 segundos
   setInterval(() => {
+
     actualizarDatos();
+
   }, 5000);
 });
